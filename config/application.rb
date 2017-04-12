@@ -31,5 +31,8 @@ module Bloccit
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    #make random_data.rb accessible to all our specs.
+    config.autoload_paths << File.join(config.root, "lib")
   end
 end
