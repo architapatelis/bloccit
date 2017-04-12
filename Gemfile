@@ -13,6 +13,7 @@ end
 # specify Database for our Development environment
 group :development do
   gem 'sqlite3'
+  gem 'pry-rails'
 end
 
 # add the rspec-rails gem
