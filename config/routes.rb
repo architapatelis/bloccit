@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :questions
   # 'resources' method tells Rails to create post routes for creating, updating, viewing, deleting instances of Post.
   resources :posts
 

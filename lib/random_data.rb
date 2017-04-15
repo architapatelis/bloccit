@@ -39,4 +39,8 @@ module RandomData
     # join the zeroth through nth(3 to 8) item in letters. results in a word that is 3-8 characters long
     letters[0,rand(3..8)].join
   end
+
+  def self.random_boolean
+    rand(0..1) == 1
+  end
 end
