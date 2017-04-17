@@ -18,6 +18,8 @@ end
 # add the rspec-rails gem
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
+  # to write association tests for 'topics' and 'posts' - provides methods not found in RSpec
+  gem 'shoulda'
 end
 
 # Use SCSS for stylesheets
