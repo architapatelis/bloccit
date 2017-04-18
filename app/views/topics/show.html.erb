@@ -14,20 +14,21 @@
           <h4 class="media-heading">
             <%= link_to post.title, topic_post_path(@topic, post) %>
           </h4>
+          <small>
+            submitted <%= time_ago_in_words(post.created_at) %> ago <br>
+            <%= post.comments.count %> Comments
+          </small>
+
         </div>
       </div>
     <% end %>
     <h2>Sponsored Posts</h2>
-    <% @topic.sponsored_posts.each do |post| %>
+    <% @topic.sponsored_posts.each do |sponsored_post| %>
       <div class="media">
         <div class="media-body">
           <h4 class="media-heading">
             <%= link_to sponsored_post.title, topic_sponsored_post_path(@topic, sponsored_post) %>
           </h4>
-          <small>
-            submitted <%= time_ago_in_words(post.created_at) %> ago <br>
-            <%= post.comments.count %> Comments
-          </small>
         </div>
       </div>
     <% end %>
