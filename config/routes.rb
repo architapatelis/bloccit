@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     resources :posts, except: [:index]
   end
 
+  resources :users, only: [:new, :create]
+
   # path will be /about rather than /welcome/about
   get 'about' => 'welcome#about'
 
