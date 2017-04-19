@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   # downcase is run when callback executes
   before_save { self.email = email.downcase if email.present? }
 
+  before_save :format_name
+
   validates :name, length: { minimum: 1, maximum: 100 }, presence: true
 
   #validation when password is first being created
@@ -12,7 +14,7 @@ class User < ActiveRecord::Base
   # allow_blank: true skips validation if password is not being updated but other fields are being updated.
   validates :password, length: { minimum: 6 }, allow_blank: true
 
-  
+
   validates :email,
             presence: true,
             uniqueness: { case_sensitive: false },
@@ -20,4 +22,14 @@ class User < ActiveRecord::Base
 
   # has_secure_password requires a password_digest attribute on the model it is applied to
   has_secure_password
+
+  def format_name
+    if name
+      name_array = []
+      name.split.each do |name_part|
+        name_array << name_part.capitalize
+      end
+      self.name = name_array.join(" ")
+    end
+  end
 end
