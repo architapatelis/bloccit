@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create]
 
+  post 'users/confirm' => 'users#confirm'
   # path will be /about rather than /welcome/about
   get 'about' => 'welcome#about'
 
