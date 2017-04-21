@@ -2,6 +2,10 @@ class PostsController < ApplicationController
 
   #don't need 'index' view method since all posts will be displayed with respect to a topic, on the topic 'show' view
 
+  # to redirect guest users from actions they won't be able to access
+  # call the require_sign_in method before each of our controller actions, except for the show action.
+  before_action :require_sign_in, except: :show
+
   # find the post that corresponds to the id in the params that was passed to show and assign it to @post
   def show
     @post = Post.find(params[:id])
@@ -15,15 +19,12 @@ class PostsController < ApplicationController
 
   # When create is invoked by clicking 'Save', the newly created object is persisted to the database.
   def create
-    # we call Post.new to create a new instance of Post.
-    @post = Post.new
-    @post.title = params[:post][:title]
-    @post.body = params[:post][:body]
     @topic = Topic.find(params[:topic_id])
+    # use @topic variable to access the posts array that's associated with it
+    # .build will build a new post associated with that topic
+    @post = @topic.posts.build(post_params)
 
-    # assign a topic to a post
-    @post.topic = @topic
-
+    @post.user = current_user
     # if we successfully save Post to the database
     if @post.save
 
@@ -43,8 +44,7 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    @post.title = params[:post][:title]
-    @post.body = params[:post][:body]
+    @post.assign_attributes(post_params)
 
     if @post.save
       flash[:notice] = "Post was updated."
@@ -65,5 +65,14 @@ class PostsController < ApplicationController
       flash.now[:alert] = "There was an error deleting the post."
       render :show
     end
+  end
+
+  # white list post parameters via post_params method.
+  private
+
+  # .require makes sure a post param is always passed to .build method.
+  # .permit allows specified attributes
+  def post_params
+    params.require(:post).permit(:title, :body)
   end
 end

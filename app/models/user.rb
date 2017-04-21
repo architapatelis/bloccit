@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :posts
   # inline callback
   # downcase is run when callback executes
   before_save { self.email = email.downcase if email.present? }
@@ -12,7 +13,7 @@ class User < ActiveRecord::Base
   # allow_blank: true skips validation if password is not being updated but other fields are being updated.
   validates :password, length: { minimum: 6 }, allow_blank: true
 
-  
+
   validates :email,
             presence: true,
             uniqueness: { case_sensitive: false },
