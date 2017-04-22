@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
   # downcase is run when callback executes
   before_save { self.email = email.downcase if email.present? }
 
+  # shorthand for self.role = :member if self.role.nil?.
+  before_save { self.role ||= :member }
+
   validates :name, length: { minimum: 1, maximum: 100 }, presence: true
 
   #validation when password is first being created
@@ -21,4 +24,6 @@ class User < ActiveRecord::Base
 
   # has_secure_password requires a password_digest attribute on the model it is applied to
   has_secure_password
+
+  enum role: [:member, :admin]
 end

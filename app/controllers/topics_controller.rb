@@ -1,4 +1,9 @@
 class TopicsController < ApplicationController
+  # redirect guest users who attempt to access controller actions other than index or show.
+  before_action :require_sign_in, except: [:index, :show]
+
+  # check the role of signed-in users. If the  current_user isn't an admin, we'll redirect them to the topics index view.
+  before_action :authorize_user, except: [:index, :show]
 
   def index
     @topics = Topic.all
@@ -57,5 +62,12 @@ class TopicsController < ApplicationController
 
   def topic_params
     params.require(:topic).permit(:name, :description, :public)
+  end
+
+
+  def authorize_user
+    unless current_user.admin?
+      redirect_to topics_path
+    end
   end
 end
