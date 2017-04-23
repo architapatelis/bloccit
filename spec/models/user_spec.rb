@@ -5,7 +5,7 @@ RSpec.describe User, type: :model do
 
   # To allow ownership of posts, we'll need to associate the Post and User models.
   it {is_expected.to have_many(:posts)}
-
+  it {is_expected.to have_many(:comments)}
 
   #Shoulda tests for name
   it { is_expected.to validate_presence_of(:name) }

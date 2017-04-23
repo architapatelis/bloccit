@@ -43,7 +43,8 @@ posts = Post.all
 100.times do
   Comment.create!(
 
-  # 'sample' method returns a random element from the array returned by 'Post.all'
+  # 'sample' method returns a random element from the array returned by 'Post.all' and User.all
+  user: users.sample,
   post: posts.sample,
   body: RandomData.random_paragraph
   )
