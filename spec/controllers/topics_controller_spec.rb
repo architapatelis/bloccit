@@ -287,7 +287,7 @@ RSpec.describe TopicsController, type: :controller do
 
       it "assigns Topic.all to topic" do
         get :index
-        expect(assigns(:topics).to eq([my_topic]))
+        expect(assigns(:topics)).to eq([my_topic])
       end
     end
 
@@ -303,6 +303,7 @@ RSpec.describe TopicsController, type: :controller do
       end
 
       it "assigns my_topic to @topic" do
+        get :show, {id: my_topic.id}
         expect(assigns(:topic)).to eq(my_topic)
       end
     end
@@ -357,7 +358,7 @@ RSpec.describe TopicsController, type: :controller do
 
       it "redirects to the updated topic" do
         new_name = RandomData.random_sentence
-        new_description = random_paragraph
+        new_description = RandomData.random_paragraph
 
         put :update, id: my_topic.id, topic: {name: new_name, description: new_description}
         expect(response).to redirect_to my_topic
@@ -367,7 +368,7 @@ RSpec.describe TopicsController, type: :controller do
     describe "DELETE destroy" do
       it "returns http redirect" do
         delete :destroy, {id: my_topic.id}
-        expect(reponse).to redirect_to(topics_path)
+        expect(response).to redirect_to(topics_path)
       end
     end
   end
