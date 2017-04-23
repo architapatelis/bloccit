@@ -6,8 +6,9 @@ class PostsController < ApplicationController
   # call the require_sign_in method before each of our controller actions, except for the show action.
   before_action :require_sign_in, except: :show
 
-  # If the current_user isn't authorized based on their role, we'll redirect them to the posts show view.
-  before_action :authorize_user, except: [:show, :new, :create]
+  before_action :authorize_moderator, except: [:show, :new, :create, :destroy]
+
+  before_action :authorize_admin, only: [:destroy]
 
   # find the post that corresponds to the id in the params that was passed to show and assign it to @post
   def show
@@ -81,7 +82,16 @@ class PostsController < ApplicationController
 
   # redirect the user unless they own the post they're attempting to modify, or they're an admin.
 
-  def authorize_user
+  def authorize_moderator
+    post = Post.find(params[:id])
+
+    unless current_user == post.user || current_user.moderator? || current_user.admin?
+      flash[:alert] = "You must be a moderator or admin to do that"
+      redirect_to [post.topic, post]
+    end
+  end
+
+  def authorize_admin
     post = Post.find(params[:id])
 
     unless current_user == post.user || current_user.admin?
