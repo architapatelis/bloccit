@@ -25,5 +25,5 @@ class User < ActiveRecord::Base
   # has_secure_password requires a password_digest attribute on the model it is applied to
   has_secure_password
 
-  enum role: [:member, :admin]
+  enum role: [:member, :admin, :moderator]
 end
