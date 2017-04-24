@@ -1,10 +1,15 @@
 # a Ruby class which represents the Post model. This class will handle the logic and define the behavior for posts.
 # Because we use 'model' generator, the Post class will 'inhert' from ActiveRecord::Base
-# When we delete a post, we also need to delete all related comments. We'll perform a "cascade delete",
+# When we delete a post, we also need to delete all related comments and votes. We'll perform a "cascade delete".
 class Post < ActiveRecord::Base
   belongs_to :topic
   belongs_to :user
+
+  # associate comments with Post. this allows us to call post.comment
   has_many :comments, dependent: :destroy
+
+  # associate votes with Post. allows us to call post.votes
+  has_many :votes, dependent: :destroy
 
   # default_scope will order all posts by their created_at date, in descending order, with the most recent posts displayed first.
   default_scope { order('created_at DESC') }
@@ -14,4 +19,21 @@ class Post < ActiveRecord::Base
   validates :body, length: {minimum: 20}, presence: true
   validates :topic, presence: true
   validates :user, presence: true
+
+
+  # 'votes' is implied self.votes (i.e it calls post.votes)
+
+  def up_votes
+    votes.where(value: 1).count
+  end
+
+  def down_votes
+    votes.where(value: -1).count
+  end
+
+  # ActiveRecord's :sum to add the value of all the given post's votes.
+  # Passing :value to sum tells it what attribute to sum in the collection
+  def points
+    votes.sum(:value)
+  end
 end

@@ -1,0 +1,8 @@
+<!-- partial we created references post instead of @post. Instead we explicitly pass locals `post: @post` in the posts show.html -->
+
+<!-- custom css for .vote-arrrows in votes.scss-->
+<div class="vote-arrows pull-left">
+  <div><%= link_to " ", '#', class: 'glyphicon glyphicon-chevron-up' %></div>
+  <div><strong><%= post.points%></strong></div>
+  <div><%= link_to " ", '#', class: 'glyphicon glyphicon-chevron-down' %></div>
+</div>
