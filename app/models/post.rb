@@ -10,6 +10,7 @@ class Post < ActiveRecord::Base
 
   # associate votes with Post. allows us to call post.votes
   has_many :votes, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   # default_scope will order all posts by their rank, in descending order.
   default_scope { order('rank DESC') }
