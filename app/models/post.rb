@@ -4,12 +4,13 @@
 class Post < ActiveRecord::Base
   belongs_to :topic
   belongs_to :user
-
   # associate comments with Post. this allows us to call post.comment
   has_many :comments, dependent: :destroy
 
   # associate votes with Post. allows us to call post.votes
   has_many :votes, dependent: :destroy
+
+  after_create :create_vote
 
   # default_scope will order all posts by their rank, in descending order.
   default_scope { order('rank DESC') }
@@ -41,5 +42,11 @@ class Post < ActiveRecord::Base
     age_in_days = (created_at - Time.new(1970,1,1)) / 1.day.seconds
     new_rank = points + age_in_days
     update_attribute(:rank, new_rank)
+  end
+
+  private
+
+  def create_vote
+    user.votes.create(post: self, value: 1)
   end
 end
