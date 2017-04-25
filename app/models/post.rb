@@ -11,8 +11,8 @@ class Post < ActiveRecord::Base
   # associate votes with Post. allows us to call post.votes
   has_many :votes, dependent: :destroy
 
-  # default_scope will order all posts by their created_at date, in descending order, with the most recent posts displayed first.
-  default_scope { order('created_at DESC') }
+  # default_scope will order all posts by their rank, in descending order.
+  default_scope { order('rank DESC') }
 
 
   validates :title, length: {minimum: 5}, presence: true
@@ -22,7 +22,6 @@ class Post < ActiveRecord::Base
 
 
   # 'votes' is implied self.votes (i.e it calls post.votes)
-
   def up_votes
     votes.where(value: 1).count
   end
@@ -35,5 +34,12 @@ class Post < ActiveRecord::Base
   # Passing :value to sum tells it what attribute to sum in the collection
   def points
     votes.sum(:value)
+  end
+
+  # Using a time-decay algorithm like this will keep our post ranks fresh.
+  def update_rank
+    age_in_days = (created_at - Time.new(1970,1,1)) / 1.day.seconds
+    new_rank = points + age_in_days
+    update_attribute(:rank, new_rank)
   end
 end
