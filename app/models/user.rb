@@ -1,6 +1,10 @@
 class User < ActiveRecord::Base
-  has_many :posts
-  has_many :comments
+  # when parent user deletes account all of their assocaites posts, comments, votes are deleted.
+  # allows us to use user.posts, user.comments, user.votes
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :votes, dependent: :destroy
+
   # inline callback
   # downcase is run when callback executes
   before_save { self.email = email.downcase if email.present? }

@@ -7,9 +7,10 @@
 <div class="row">
   <div class="col-md-8">
     <p class="lead"><%= @topic.description %></p>
- <!-- iterate over 'posts' belonging to @topic and display each post-->
+    <!-- iterate over 'posts' belonging to @topic and display each post-->
     <% @topic.posts.each do |post| %>
       <div class="media">
+        <%= render partial: 'votes/voter', locals: {post: post} %>
         <div class="media-body">
           <h4 class="media-heading">
             <%= link_to post.title, topic_post_path(@topic, post) %>

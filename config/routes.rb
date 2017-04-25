@@ -8,6 +8,13 @@ Rails.application.routes.draw do
   # only: [] - we don't want to create any /posts/:id routes, just posts/:post_id/comments routes.
   resources :posts, only: [] do
     resources :comments, only: [:create, :destroy]
+
+    # create POST routes at the URL posts/:id/up-vote
+    # 'as' key points to method 'up_vote' associated this route: up_vote_path
+    post '/up-vote' => 'votes#up_vote', as: :up_vote
+    #create POST routes at the URL posts/:id/down-vote
+    # route: down_vote_path
+    post '/down-vote' => 'votes#down_vote', as: :down_vote
   end
 
   resources :users, only: [:new, :create]

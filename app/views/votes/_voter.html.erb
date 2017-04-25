@@ -1,0 +1,13 @@
+<!-- partial we created references post instead of @post. Instead we explicitly pass locals `post: @post` in the posts show.html -->
+
+<!-- custom css for .vote-arrrows in votes.scss-->
+<!-- used method: :post, because link_to generates GET requests by default. But we don't have an associated view page with vote, we want POST instead.-->
+
+<!-- only allowing signed in users to actually vote -->
+<% if current_user %>
+  <div class="vote-arrows pull-left">
+    <div><%= link_to " ", post_up_vote_path(post), class: 'glyphicon glyphicon-chevron-up', method: :post %></div>
+    <div><strong><%= post.points%></strong></div>
+    <div><%= link_to " ", post_down_vote_path(post), class: 'glyphicon glyphicon-chevron-down', method: :post %></div>
+  </div>
+<% end %>
