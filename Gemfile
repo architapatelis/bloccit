@@ -36,5 +36,8 @@ gem 'turbolinks'
 #Sass-powered version of Bootstrap
 gem 'bootstrap-sass'
 
-# to use Ruby's 'has_secure_password' method we need BCrypt. Used for encrypting user passwords 
+# to use Ruby's 'has_secure_password' method we need BCrypt. Used for encrypting user passwords
 gem 'bcrypt'
+
+# to store SendGrid username and password as environment variables.
+gem 'figaro', '1.0'
