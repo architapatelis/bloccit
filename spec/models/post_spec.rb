@@ -84,4 +84,17 @@ RSpec.describe Post, type: :model do
       end
     end
   end
+
+  describe "#create_favorite" do
+    it "automatically favorites the post" do
+      expect(post.favorites.last).to_not be_nil
+    end
+
+    it "associates the favorite post with current user" do
+      expect(post.favorites.last.user.id).to eq(user.id)
+    end
+  end
+
+
+
 end
