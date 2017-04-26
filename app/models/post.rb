@@ -15,6 +15,12 @@ class Post < ActiveRecord::Base
   # default_scope will order all posts by their rank, in descending order.
   default_scope { order('rank DESC') }
 
+  # unauthenticated users should not be able to see the posts of other users which are associated with private topics
+  # lambda ensures that a user is present or signed in
+  # if user is present - return all posts
+  # if not - use joins to retrieve only all 'public' topics
+  scope :visible_to, -> (user) {user ? all : joins(:topic).where('topics.public' => true)}
+
 
   validates :title, length: {minimum: 5}, presence: true
   validates :body, length: {minimum: 20}, presence: true

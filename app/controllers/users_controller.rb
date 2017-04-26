@@ -20,5 +20,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find(params[:id])
+    # show posts based on whether or not the current user is authenticated
+    @posts = @user.posts.visible_to(current_user)
+  end
 
 end

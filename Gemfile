@@ -20,6 +20,9 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   # to write association tests for 'topics' and 'posts' - provides methods not found in RSpec
   gem 'shoulda'
+  # allows us to build objects we can use for testing.
+  #Factories allow us to modify the behavior of a given object type in a single place.
+  gem 'factory_girl_rails', '~> 4.0'
 end
 
 # Use SCSS for stylesheets
