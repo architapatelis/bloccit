@@ -22,8 +22,21 @@
 </div>
 
 <!-- we display all of the user's posts and comments using partials.-->
+
 <h2>Posts</h2>
+<% if user_has_no_posts?(@user)%>
+  <p><%= "#{@user.name} has not submitted any posts yet." %></p>
+<% end %>
 <%= render @user.posts %>
 
 <h2>Comments</h2>
+<% if user_has_no_comments?(@user) %>
+  <p><%= "#{@user.name} has not submitted any comments yet." %></p>
+<% end %>
 <%= render @user.comments %>
+
+<h2>Favorite Posts</h2>
+<% if user_has_favorites?(@user) %>
+  <p><%= "#{@user.name} doesn't have any favorite posts yet." %></p>
+<% end %>
+<%= render partial: 'favorites/favorites' %>

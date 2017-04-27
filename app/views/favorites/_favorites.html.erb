@@ -1,0 +1,6 @@
+<div class="row favorite-posts">
+  <% @user.favorites.each do |favorite| %>
+    <%= link_to favorite.post.title, topic_post_path(favorite.post.topic, favorite.post) %> <%= image_tag(favorite.post.user.avatar_url(25), class: "gravatar") %>
+      <%= favorite.post.votes.count %> votes, <%= favorite.post.comments.count %> comments<br />
+  <% end %>
+</div>
